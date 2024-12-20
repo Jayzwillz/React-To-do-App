@@ -10,8 +10,19 @@ const TodoList = ({ todos, onEdit, onDelete }) => {
             {/* Wrap the todo title with a Link */}
             <Link to={`/todos/${todo.id}`}>{todo.title}</Link>
             <div>
-              <button onClick={() => onEdit(todo)}>Edit</button>
-              <button onClick={() => onDelete(todo.id)}>Delete</button>
+              <button
+                className="edit-button"
+                style={{ marginRight: "10px" }}
+                onClick={() => onEdit(todo)}
+              >
+                Edit
+              </button>
+              <button
+                className="delete-button"
+                onClick={() => onDelete(todo.id)}
+              >
+                Delete
+              </button>
             </div>
           </li>
         ))}
