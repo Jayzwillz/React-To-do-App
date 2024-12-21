@@ -16,6 +16,7 @@ const Home = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editingTodo, setEditingTodo] = useState(null);
   const [newTodoTitle, setNewTodoTitle] = useState('');
+  const [newTodoStatus, setNewTodoStatus] = useState(false); // New state for completed status
 
   // Fetch todos from the API
   useEffect(() => {
@@ -89,12 +90,11 @@ const Home = () => {
   return (
     <div>
       <h1>Todos</h1>
-<div className="add-todo-container">
-  <button className="add-todo-button" onClick={() => setModalOpen(true)}>
-    Add Todo
-  </button>
-</div>
-
+      <div className="add-todo-container">
+        <button className="add-todo-button" onClick={() => setModalOpen(true)}>
+          Add Todo
+        </button>
+      </div>
 
       {/* Search and Filter */}
       <SearchFilter
@@ -110,6 +110,7 @@ const Home = () => {
         onEdit={(todo) => {
           setEditingTodo(todo);
           setNewTodoTitle(todo.title);
+          setNewTodoStatus(todo.completed); // Load existing completed status
           setModalOpen(true);
         }}
         onDelete={handleDeleteTodo}
@@ -131,11 +132,25 @@ const Home = () => {
           onChange={(e) => setNewTodoTitle(e.target.value)}
           placeholder="Enter todo title"
         />
+        {editingTodo && (
+          <div>
+            <label>
+              <input
+                type="checkbox"
+                checked={newTodoStatus}
+                onChange={(e) => setNewTodoStatus(e.target.checked)}
+              />
+              Mark as Completed
+            </label>
+          </div>
+        )}
         <button
           onClick={() => {
-            editingTodo
-              ? handleEditTodo({ ...editingTodo, title: newTodoTitle })
-              : handleCreateTodo();
+            if (editingTodo) {
+              handleEditTodo({ ...editingTodo, title: newTodoTitle, completed: newTodoStatus });
+            } else {
+              handleCreateTodo();
+            }
           }}
         >
           {editingTodo ? 'Save Changes' : 'Create Todo'}
