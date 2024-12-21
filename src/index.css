@@ -311,6 +311,13 @@ body.modal-open {
   z-index: 1000;
 }
 
+.modal-backdrop input{
+  height: 30px;
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+}
+
 .modal-content {
   background: #0058fd;
   padding: 20px;
