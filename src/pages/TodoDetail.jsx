@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { fetchTodoById } from "../api/todoAPI";
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { fetchTodoById } from '../api/todoAPI';
 
-const LOCAL_STORAGE_KEY = "todosApp.todos";
+const LOCAL_STORAGE_KEY = 'todosApp.todos';
 
 const TodoDetail = () => {
   const { id } = useParams();
@@ -14,19 +14,17 @@ const TodoDetail = () => {
     const fetchTodo = async () => {
       setLoading(true);
       try {
-        // Check local storage first
         const savedTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
         const localTodo = savedTodos.find((todo) => todo.id.toString() === id);
 
         if (localTodo) {
           setTodo(localTodo);
         } else {
-          // If not found locally, fetch from API
           const data = await fetchTodoById(id);
-          setTodo(data);
+          setTodo({ ...data, timestamp: null });
         }
       } catch (err) {
-        setError("Error fetching todo details.");
+        setError('Error fetching todo details.');
       } finally {
         setLoading(false);
       }
@@ -38,7 +36,6 @@ const TodoDetail = () => {
   const toggleCompletionStatus = () => {
     if (!todo) return;
 
-    // Update locally and sync to local storage
     const updatedTodo = { ...todo, completed: !todo.completed };
     setTodo(updatedTodo);
 
@@ -55,9 +52,14 @@ const TodoDetail = () => {
     <div>
       <h1>Todo Details</h1>
       <p><strong>Title:</strong> {todo.title}</p>
-      <p><strong>Status:</strong> {todo.completed ? "Completed" : "Pending"}</p>
+      <p><strong>Status:</strong> {todo.completed ? 'Completed' : 'Pending'}</p>
+      {todo.timestamp ? (
+        <p><strong>Created On:</strong> {new Date(todo.timestamp).toLocaleString()}</p>
+      ) : (
+        <p><strong>Created On:</strong> Not Available</p>
+      )}
       <button onClick={toggleCompletionStatus}>
-        {todo.completed ? "Mark as Pending" : "Mark as Completed"}
+        {todo.completed ? 'Mark as Pending' : 'Mark as Completed'}
       </button>
     </div>
   );

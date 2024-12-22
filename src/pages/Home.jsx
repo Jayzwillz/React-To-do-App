@@ -7,8 +7,8 @@ import SearchFilter from '../components/SearchFilter';
 const LOCAL_STORAGE_KEY = 'todosApp.todos';
 
 const Home = () => {
-  const [todos, setTodos] = useState([]); // State for todos
-  const [apiTodos, setApiTodos] = useState([]); // State for API todos
+  const [todos, setTodos] = useState([]);
+  const [apiTodos, setApiTodos] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [todosPerPage, setTodosPerPage] = useState(10);
   const [searchTerm, setSearchTerm] = useState('');
@@ -23,9 +23,9 @@ const Home = () => {
   useEffect(() => {
     const fetchTodos = async () => {
       try {
-        const response = await fetch('https://jsonplaceholder.typicode.com/todos'); // Replace with your actual API endpoint
+        const response = await fetch('https://jsonplaceholder.typicode.com/todos');
         const data = await response.json();
-        setApiTodos(data);
+        setApiTodos(data.map((todo) => ({ ...todo, timestamp: null }))); // Add placeholder timestamp
       } catch (error) {
         console.error('Error fetching todos:', error);
       }
@@ -53,51 +53,45 @@ const Home = () => {
     setNewTodoStatus(false);
   };
 
-  // Create a new todo
   const handleCreateTodo = () => {
-    if (!newTodoTitle.trim()) return; // Prevent empty todos
+    if (!newTodoTitle.trim()) return;
     const newTodo = {
       id: Date.now(),
       title: newTodoTitle,
       completed: false,
-      completionDate: newTodoCompletionDate,
+      completionDate: newTodoCompletionDate || null,
+      timestamp: Date.now(), // Add creation timestamp
     };
-    setTodos([newTodo, ...todos]); // Add the new todo to the list
-    resetForm(); // Reset form fields
-    setModalOpen(false); // Close modal
+    setTodos([newTodo, ...todos]);
+    resetForm();
+    setModalOpen(false);
   };
 
-  // Edit an existing todo
   const handleEditTodo = (updatedTodo) => {
     setTodos(todos.map((todo) => (todo.id === updatedTodo.id ? updatedTodo : todo)));
-    resetForm(); // Reset form fields
-    setModalOpen(false); // Close modal
+    resetForm();
+    setModalOpen(false);
   };
 
-  // Delete a todo
   const handleDeleteTodo = (id) => {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
 
-  // Filter todos based on search term and status
-  const filteredTodos = [...todos, ...apiTodos] // Combine API and local todos
-    .filter((todo) => {
-      const matchesSearch = todo.title.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesFilter =
-        filterStatus === 'all'
-          ? true
-          : filterStatus === 'completed'
-          ? todo.completed
-          : !todo.completed;
-      return matchesSearch && matchesFilter;
-    });
+  const filteredTodos = [...todos, ...apiTodos].filter((todo) => {
+    const matchesSearch = todo.title.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesFilter =
+      filterStatus === 'all'
+        ? true
+        : filterStatus === 'completed'
+        ? todo.completed
+        : !todo.completed;
+    return matchesSearch && matchesFilter;
+  });
 
-  // Pagination logic
   const indexOfLastTodo = currentPage * todosPerPage;
   const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
   const currentTodos = filteredTodos.slice(indexOfFirstTodo, indexOfLastTodo);
 
-  // Calculate total pages
   const totalPages = Math.ceil(filteredTodos.length / todosPerPage);
 
   return (
@@ -107,23 +101,19 @@ const Home = () => {
         <button
           className="add-todo-button"
           onClick={() => {
-            resetForm(); // Reset form for adding a new todo
-            setModalOpen(true); // Open modal
+            resetForm();
+            setModalOpen(true);
           }}
         >
           Add Todo
         </button>
       </div>
-
-      {/* Search and Filter */}
       <SearchFilter
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
         filterStatus={filterStatus}
         setFilterStatus={setFilterStatus}
       />
-
-      {/* Todo List */}
       <TodoList
         todos={currentTodos}
         onEdit={(todo) => {
@@ -135,15 +125,11 @@ const Home = () => {
         }}
         onDelete={handleDeleteTodo}
       />
-
-      {/* Pagination */}
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={(page) => setCurrentPage(page)}
       />
-
-      {/* Modal */}
       <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
         <h2>{editingTodo ? 'Edit Todo' : 'Add Todo'}</h2>
         <input
@@ -157,7 +143,6 @@ const Home = () => {
             type="datetime-local"
             value={newTodoCompletionDate}
             onChange={(e) => setNewTodoCompletionDate(e.target.value)}
-            placeholder="Completion Date"
           />
         )}
         {editingTodo && (
@@ -173,7 +158,7 @@ const Home = () => {
           </div>
         )}
         <button
-          onClick={() => {
+          onClick={() =>
             editingTodo
               ? handleEditTodo({
                   ...editingTodo,
@@ -181,8 +166,8 @@ const Home = () => {
                   completed: newTodoStatus,
                   completionDate: newTodoCompletionDate,
                 })
-              : handleCreateTodo();
-          }}
+              : handleCreateTodo()
+          }
         >
           {editingTodo ? 'Save Changes' : 'Create Todo'}
         </button>
