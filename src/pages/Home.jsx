@@ -46,6 +46,22 @@ const Home = () => {
     }
   }, [todos]);
 
+  // Periodically check for overdue todos (every minute)
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const updatedTodos = todos.map((todo) => {
+        // If the completionDate has passed and the todo is not already completed, mark it as completed
+        if (!todo.completed && todo.completionDate && new Date(todo.completionDate) < new Date()) {
+          return { ...todo, completed: true };
+        }
+        return todo;
+      });
+      setTodos(updatedTodos);
+    }, 60000); // Check every minute
+
+    return () => clearInterval(intervalId); // Cleanup on component unmount
+  }, [todos]);
+
   const resetForm = () => {
     setEditingTodo(null);
     setNewTodoTitle('');
@@ -108,12 +124,14 @@ const Home = () => {
           Add Todo
         </button>
       </div>
+
       <SearchFilter
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
         filterStatus={filterStatus}
         setFilterStatus={setFilterStatus}
       />
+
       <TodoList
         todos={currentTodos}
         onEdit={(todo) => {
@@ -125,11 +143,13 @@ const Home = () => {
         }}
         onDelete={handleDeleteTodo}
       />
+
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={(page) => setCurrentPage(page)}
       />
+
       <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
         <h2>{editingTodo ? 'Edit Todo' : 'Add Todo'}</h2>
         <input

@@ -1,0 +1,127 @@
+/* TodoDetail.css */
+.todo-detail-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .todo-detail-content {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* h1 {
+    text-align: center;
+    font-size: 2rem;
+    color: #333;
+  } */
+  
+  .todo-detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .status-badge {
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .status-badge.completed {
+    background-color: green;
+  }
+  
+  .status-badge.pending {
+    background-color: red;
+  }
+  
+  /* button {
+    padding: 8px 15px;
+    margin: 5px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  } */
+  
+  .comments-section {
+    margin-top: 20px;
+  }
+  
+  .comments-section ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .comment-item {
+    display: flex;
+    justify-content: space-between;
+    background-color: #f1f1f1;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .delete-comment-btn {
+    background-color: red;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin: initial;
+  }
+  
+  .comment-input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+  }
+  
+  .add-comment-btn {
+    padding: 8px 15px;
+    background-color: #008CBA;
+    color: white;
+    border-radius: 5px;
+    margin-top: 10px;
+  }
+  
+  .edit-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+  }
+  
+  .save-btn {
+    background-color: #4CAF50;
+  }
+  
+  .cancel-btn {
+    background-color: #f44336;
+  }
+  
+  @media (max-width: 600px) {
+    .todo-detail-container {
+      padding: 10px;
+    }
+  
+    h1 {
+      font-size: 1.5rem;
+    }
+  
+    /* button, .save-btn, .cancel-btn, .add-comment-btn {
+      width: 100%;
+    } */
+  }
+  
