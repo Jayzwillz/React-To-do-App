@@ -16,7 +16,8 @@ const Home = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editingTodo, setEditingTodo] = useState(null);
   const [newTodoTitle, setNewTodoTitle] = useState('');
-  const [newTodoStatus, setNewTodoStatus] = useState(false); // New state for completed status
+  const [newTodoCompletionDate, setNewTodoCompletionDate] = useState('');
+  const [newTodoStatus, setNewTodoStatus] = useState(false);
 
   // Fetch todos from the API
   useEffect(() => {
@@ -45,20 +46,32 @@ const Home = () => {
     }
   }, [todos]);
 
+  const resetForm = () => {
+    setEditingTodo(null);
+    setNewTodoTitle('');
+    setNewTodoCompletionDate('');
+    setNewTodoStatus(false);
+  };
+
   // Create a new todo
   const handleCreateTodo = () => {
     if (!newTodoTitle.trim()) return; // Prevent empty todos
-    const newTodo = { id: Date.now(), title: newTodoTitle, completed: false };
+    const newTodo = {
+      id: Date.now(),
+      title: newTodoTitle,
+      completed: false,
+      completionDate: newTodoCompletionDate,
+    };
     setTodos([newTodo, ...todos]); // Add the new todo to the list
+    resetForm(); // Reset form fields
     setModalOpen(false); // Close modal
-    setNewTodoTitle(''); // Reset input
   };
 
   // Edit an existing todo
   const handleEditTodo = (updatedTodo) => {
     setTodos(todos.map((todo) => (todo.id === updatedTodo.id ? updatedTodo : todo)));
+    resetForm(); // Reset form fields
     setModalOpen(false); // Close modal
-    setEditingTodo(null); // Reset editing state
   };
 
   // Delete a todo
@@ -91,7 +104,13 @@ const Home = () => {
     <div>
       <h1>Todos</h1>
       <div className="add-todo-container">
-        <button className="add-todo-button" onClick={() => setModalOpen(true)}>
+        <button
+          className="add-todo-button"
+          onClick={() => {
+            resetForm(); // Reset form for adding a new todo
+            setModalOpen(true); // Open modal
+          }}
+        >
           Add Todo
         </button>
       </div>
@@ -110,7 +129,8 @@ const Home = () => {
         onEdit={(todo) => {
           setEditingTodo(todo);
           setNewTodoTitle(todo.title);
-          setNewTodoStatus(todo.completed); // Load existing completed status
+          setNewTodoCompletionDate(todo.completionDate || '');
+          setNewTodoStatus(todo.completed || false);
           setModalOpen(true);
         }}
         onDelete={handleDeleteTodo}
@@ -132,6 +152,14 @@ const Home = () => {
           onChange={(e) => setNewTodoTitle(e.target.value)}
           placeholder="Enter todo title"
         />
+        {!editingTodo && (
+          <input
+            type="datetime-local"
+            value={newTodoCompletionDate}
+            onChange={(e) => setNewTodoCompletionDate(e.target.value)}
+            placeholder="Completion Date"
+          />
+        )}
         {editingTodo && (
           <div>
             <label>
@@ -146,11 +174,14 @@ const Home = () => {
         )}
         <button
           onClick={() => {
-            if (editingTodo) {
-              handleEditTodo({ ...editingTodo, title: newTodoTitle, completed: newTodoStatus });
-            } else {
-              handleCreateTodo();
-            }
+            editingTodo
+              ? handleEditTodo({
+                  ...editingTodo,
+                  title: newTodoTitle,
+                  completed: newTodoStatus,
+                  completionDate: newTodoCompletionDate,
+                })
+              : handleCreateTodo();
           }}
         >
           {editingTodo ? 'Save Changes' : 'Create Todo'}
