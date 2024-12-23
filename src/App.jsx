@@ -16,7 +16,8 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/todos/:id" element={<TodoDetail />} />
           <Route path="/error" element={<ErrorPage />} />
-          <Route path="*" element={<NotFoundPage />} /> {/* Render 404ErrorPage */}
+          <Route path="*" element={<NotFoundPage />} />{" "}
+          {/* Render 404ErrorPage */}
         </Routes>
       </ErrorBoundary>
     </Router>

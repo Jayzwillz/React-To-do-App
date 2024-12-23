@@ -84,13 +84,19 @@ const Home = () => {
   };
 
   const handleEditTodo = (updatedTodo) => {
+    // Update in local todos
     setTodos(todos.map((todo) => (todo.id === updatedTodo.id ? updatedTodo : todo)));
+
+    // If the todo exists in apiTodos, update it as well
+    setApiTodos(apiTodos.map((todo) => (todo.id === updatedTodo.id ? updatedTodo : todo)));
+
     resetForm();
     setModalOpen(false);
   };
 
   const handleDeleteTodo = (id) => {
     setTodos(todos.filter((todo) => todo.id !== id));
+    setApiTodos(apiTodos.filter((todo) => todo.id !== id)); // Ensure deletion in API todos too
   };
 
   const filteredTodos = [...todos, ...apiTodos].filter((todo) => {
