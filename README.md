@@ -1,5 +1,58 @@
-# Vue 3 + Vite
+# ✅ Vue + TypeScript Todo App
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+A refactored version of a Vue Todo application, rebuilt using **Vue 3**, **TypeScript**, and the **Composition API**.  
+This app lets users manage todos with features like search, pagination, and persistent storage.
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+---
+
+## 📦 Features
+
+- ✅ List todos with pagination  
+- ✅ Search and filter todos  
+- ✅ View todo details with nested routes  
+- ✅ Add, update, and delete todos (CRUD)  
+- ✅ Error handling with a custom 404 page  
+- ✅ Persistent storage using LocalStorage or IndexedDB (Dexie.js)  
+- ✅ Responsive and accessible UI  
+
+---
+
+## 🚀 Getting Started
+
+Follow the steps below to set up and run the project locally.
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/your-username/your-repo-name.git
+
+cd your-repo-name
+
+npm install
+
+## 🧰 Built With
+
+Vue 3
+
+TypeScript
+
+Vite
+
+Pinia – For state management
+
+Tailwind CSS – If used for styling
+
+├── src/
+│   ├── components/         # Reusable UI components
+│   ├── views/              # Main page views
+│   ├── router/             # Vue Router setup
+│   ├── store/              # Pinia store files
+│   ├── api/                # API-related logic
+│   └── main.ts             # Application entry point
+├── public/                 # Static assets
+├── index.html              # Main HTML file
+├── vite.config.ts          # Vite configuration
+└── README.md               # Project documentation
+
+## 📬 Contact
+For questions, suggestions, or contributions, feel free to open an issue or contact me directly.
