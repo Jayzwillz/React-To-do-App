@@ -1,23 +1,5 @@
-# Todo Application
+# Vue 3 + Vite
 
-## Description
-A simple and responsive Todo Application built with React, allowing users to:
-- Add, edit, delete, and filter todos.
-- View detailed todo information.
-- Navigate through pages with pagination.
-- Test error boundaries and handle 404 errors gracefully.
+This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
 
-## Features
-- **CRUD Operations**: Create, Read, Update, and Delete todos.
-- **Pagination**: Efficiently navigate through large datasets.
-- **Search and Filter**: Easily find specific todos based on title or status.
-- **Error Handling**: Includes an Error Boundary and a custom 404 page.
-- **API Integration**: Fetches todos from a JSONPlaceholder API.
-
-## Tech Stack
-- **Frontend**: React
-- **Routing**: React Router
-- **State Management**: React Hooks
-- **Styling**: CSS (responsive design)
-- **Deployment**: Hosted on [Netlify].
-
+Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
