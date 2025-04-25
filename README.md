@@ -24,11 +24,12 @@ Follow the steps below to set up and run the project locally.
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
+git clone https://github.com/Jayzwillz/React-To-do-App
 
-cd your-repo-name
+cd React-To-Do-App
 
 npm install
+```
 
 ## 🧰 Built With
 
@@ -40,7 +41,9 @@ Vite
 
 Pinia – For state management
 
-Tailwind CSS – If used for styling
+Tailwind CSS – Used for styling
+
+```
 
 ├── src/
 │   ├── components/         # Reusable UI components
@@ -53,6 +56,8 @@ Tailwind CSS – If used for styling
 ├── index.html              # Main HTML file
 ├── vite.config.ts          # Vite configuration
 └── README.md               # Project documentation
+
+```
 
 ## 📬 Contact
 For questions, suggestions, or contributions, feel free to open an issue or contact me directly.
